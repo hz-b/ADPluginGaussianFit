@@ -13,8 +13,14 @@
 /* AreaDetector includes */
 #include "NDPluginDriver.h"
 
+
 /* Ceres include */
 #include "ceres/ceres.h"
+
+//version numbers
+#define GAUSSIAN_FIT_VERSION 2
+#define GAUSSIAN_FIT_REVISION 1
+#define GAUSSIAN_FIT_MODIFICATION 0
 
 
 class NDPluginGaussianFit : public NDPluginDriver
@@ -26,9 +32,10 @@ public:
                         const char *NDArrayPort, int NDArrayAddr, int maxBuffers,
                         size_t maxMemory, int priority, int stackSize);
     ~NDPluginGaussianFit();
-};
 
-void processCallbacks(NDArray *pArray);
+    /* Override the virtual method in the base class */
+    void processCallbacks(NDArray *pArray);
+};
 
 
 
