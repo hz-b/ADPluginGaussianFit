@@ -16,12 +16,15 @@ LIBRARY_IOC += NDPluginGaussianFit
 
 NDPluginGaussianFit_SRCS += NDPluginGaussianFit.cpp
 
-ifdef CERES_SOLVER_INCLUDE
-    USR_INCLUDES += -I$(CERES_SOLVER_INCLUDE)
+ifdef CERES_INCLUDE
+    USR_INCLUDES += -I$(CERES_INCLUDE)
 endif
-ifdef CERES_SOLVER_LIB
-    NDPluginGaussianFit_DIR += $(CERES_SOLVER_LIB)
+ifdef CERES_LIB
+    NDPluginGaussianFit_DIR += $(CERES_LIB)
 endif
+
+USR_INCLUDES += -I/usr/include/eigen3
+USR_INCLUDES += -I/usr/include/glog
 
 include $(AREA_DETECTOR)/ADCore/ADApp/commonLibraryMakefile
 

@@ -23,7 +23,7 @@
 #define GAUSSIAN_FIT_MODIFICATION 0
 
 
-class NDPluginGaussianFit : public NDPluginDriver
+class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
 private:
     /* data */
@@ -31,7 +31,6 @@ public:
     NDPluginGaussianFit(const char *portName, int queueSize, int blockingCallbacks,
                         const char *NDArrayPort, int NDArrayAddr, int maxBuffers,
                         size_t maxMemory, int priority, int stackSize);
-    ~NDPluginGaussianFit();
 
     /* Override the virtual method in the base class */
     void processCallbacks(NDArray *pArray);
