@@ -52,25 +52,19 @@ private:
 void NDPluginGaussianFit::processCallbacks(NDArray *pArray) {
     static const char *functionName = "processCallbacks";
 
-    NDArrayInfo arrayInfo;
+    epicsFloat64 *pData = (epicsFloat64 *)pArray->pData;
 
     size_t sizeX=0, sizeY=0;
 
-    epicsType *pData = (epicsType *)pArray->pData;
-
     /* Call base class and get information about the frame */
     NDPluginDriver::beginProcessCallbacks(pArray);
-
-    pArray->getInfo(&arrayInfo);
 
     if (pArray->ndims > 0) sizeX = pArray->dims[0].size;
     if (pArray->ndims == 1) sizeY = 1;
     if (pArray->ndims > 1)  sizeY = pArray->dims[1].size;
 
-    asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s Number of elements  %ld\n", driverName, functionName, arrayInfo.nElements);
-
     // Unlock before computing the Residual
-    // this->unlock();
+    this->unlock();
 
     std::ofstream outfile("/home/lporzio/temp/gaussian_data.csv");
 
@@ -120,7 +114,7 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray) {
     ceres::Solver::Summary summary;
     ceres::Solve(opts, &problem, &summary);
 
-    // this->lock();
+    this->lock();
 
     asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s TEST GAUSSIAN FIT PLUGIN  %s\n", driverName, functionName, "test");
 
