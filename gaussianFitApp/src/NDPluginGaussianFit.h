@@ -22,6 +22,12 @@
 #define GAUSSIAN_FIT_REVISION 1
 #define GAUSSIAN_FIT_MODIFICATION 0
 
+// Initial guesses
+#define NDPluginGaussianFitInitAmplitudeString  "INITIAL_AMPLITUDE"     // (asynFloat64)
+#define NDPluginGaussianFitInitXString          "INITIAL_X"             // (asynFloat64)
+#define NDPluginGaussianFitInitYString          "INITIAL_Y"             // (asynFloat64)
+#define NDPluginGaussianFitInitSxString         "INITIAL_SX"            // (asynFloat64)
+#define NDPluginGaussianFitInitSyString         "INITIAL_SY"            // (asynFloat64)
 
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
@@ -34,6 +40,22 @@ public:
 
     /* Override the virtual method in the base class */
     void processCallbacks(NDArray *pArray);
+
+protected:
+    // Initial guess for Amplitude
+    int NDPluginGaussianFitInitAmplitude;
+    
+    // Initial guess for X
+    int NDPluginGaussianFitInitX;
+    
+    // Initial guess for Y
+    int NDPluginGaussianFitInitY;
+    
+    // Initial guess for SigmaX
+    int NDPluginGaussianFitInitSx;
+    
+    // Initial guess for SigmaY
+    int NDPluginGaussianFitInitSy;
 };
 
 

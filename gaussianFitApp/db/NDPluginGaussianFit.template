@@ -1,2 +1,42 @@
 # include the base driver template file
 include "NDPluginBase.template"
+
+record(ao, "$(P)$(R)Initial_Amplitude")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_AMPLITUDE")
+    field(VAL,   "255.0")
+}
+
+record(ao, "$(P)$(R)Initial_X")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_X")
+    field(VAL,   "255.0")
+}
+
+record(ao, "$(P)$(R)Initial_Y")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_Y")
+    field(VAL,   "255.0")
+}
+
+record(ao, "$(P)$(R)Initial_SX")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_SX")
+    field(VAL,   "255.0")
+}
+
+record(ao, "$(P)$(R)Initial_SY")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_SY")
+    field(VAL,   "255.0")
+}
