@@ -33,6 +33,13 @@
 #define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
 #define NDPluginGaussianFitOptNumThreadsString          "NUM_THREADS"           // (asynInt32)
 
+// Fitted Parameters
+#define NDPluginGaussianFitAmplitudeString      "FITTED_AMPLITUDE"      // (asynFloat64)
+#define NDPluginGaussianFitXString              "FITTED_X"              // (asynFloat64)
+#define NDPluginGaussianFitYString              "FITTED_Y"              // (asynFloat64)
+#define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
+#define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
+
 
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
@@ -50,10 +57,10 @@ protected:
     // Initial guess for Amplitude
     int NDPluginGaussianFitInitAmplitude;
     
-    // Initial guess for X
+    // Initial guess for Centroid X-axis
     int NDPluginGaussianFitInitX;
     
-    // Initial guess for Y
+    // Initial guess for Centrois Y-axis
     int NDPluginGaussianFitInitY;
     
     // Initial guess for SigmaX
@@ -67,6 +74,21 @@ protected:
 
     // Ceres Solver Number of Threads
     int NDPluginGaussianFitOptNumThreads;
+
+    // Fitted value for Amplitude
+    int NDPluginGaussianFitAmplitude;
+
+    // Fitted value for Centroid X-axis
+    int NDPluginGaussianFitX;
+
+    // Fitted value for Centroid Y-axis
+    int NDPluginGaussianFitY;
+
+    // Fitted value for SigmaX
+    int NDPluginGaussianFitSx;
+
+    // Fitted value for SigmaY
+    int NDPluginGaussianFitSy;
 };
 
 

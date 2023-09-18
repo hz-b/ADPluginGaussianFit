@@ -117,6 +117,12 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     // Return the lock after computation
     this->lock();
 
+    setDoubleParam(NDPluginGaussianFitAmplitude, a);
+    setDoubleParam(NDPluginGaussianFitX, x_0);
+    setDoubleParam(NDPluginGaussianFitY, y_0);
+    setDoubleParam(NDPluginGaussianFitSx, s_x);
+    setDoubleParam(NDPluginGaussianFitSy, s_y);
+
     asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s Fitted Params:\nAmplitude: %f\nX0: %f\n Y0: %f\nSx: %f\nSy: %f\n", driverName, functionName,
               a, x_0, y_0, s_x, s_y);
 
@@ -144,6 +150,15 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
     createParam(NDPluginGaussianFitInitYString, asynParamFloat64, &NDPluginGaussianFitInitY);
     createParam(NDPluginGaussianFitInitSxString, asynParamFloat64, &NDPluginGaussianFitInitSx);
     createParam(NDPluginGaussianFitInitSyString, asynParamFloat64, &NDPluginGaussianFitInitSy);
+
+    createParam(NDPluginGaussianFitOptMaxNumIterationsString, asynParamInt32, &NDPluginGaussianFitOptMaxNumIterations);
+    createParam(NDPluginGaussianFitOptNumThreadsString, asynParamInt32, &NDPluginGaussianFitOptNumThreads);
+
+    createParam(NDPluginGaussianFitAmplitudeString, asynParamFloat64, &NDPluginGaussianFitAmplitude);
+    createParam(NDPluginGaussianFitXString, asynParamFloat64, &NDPluginGaussianFitX);
+    createParam(NDPluginGaussianFitYString, asynParamFloat64, &NDPluginGaussianFitY);
+    createParam(NDPluginGaussianFitSxString, asynParamFloat64, &NDPluginGaussianFitSx);
+    createParam(NDPluginGaussianFitSyString, asynParamFloat64, &NDPluginGaussianFitSy);
 
     connectToArrayPort();
 }

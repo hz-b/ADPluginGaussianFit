@@ -56,3 +56,45 @@ record(ao, "$(P)$(R)Num_Threads")
     field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))NUM_THREADS")
     field(VAL,   "8")
 }
+
+record( ai, "$(P)$(R)Amplitude_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_AMPLITUDE")
+    field(SCAN, "I/O Intr")
+}
+
+record( ai, "$(P)$(R)X_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X")
+    field(SCAN, "I/O Intr")
+}
+
+record( ai, "$(P)$(R)X_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X")
+    field(SCAN, "I/O Intr")
+}
+
+record( ai, "$(P)$(R)Y_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_Y")
+    field(SCAN, "I/O Intr")
+}
+
+record( ai, "$(P)$(R)SX_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SX")
+    field(SCAN, "I/O Intr")
+}
+
+record( ai, "$(P)$(R)SY_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SY")
+    field(SCAN, "I/O Intr")
+}
