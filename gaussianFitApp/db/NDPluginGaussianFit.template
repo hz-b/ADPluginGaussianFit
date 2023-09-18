@@ -40,3 +40,19 @@ record(ao, "$(P)$(R)Initial_SY")
     field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_SY")
     field(VAL,   "255.0")
 }
+
+record(ao, "$(P)$(R)Max_Iterations")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynInt32")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))MAX_ITERATIONS")
+    field(VAL,   "100")
+}
+
+record(ao, "$(P)$(R)Num_Threads")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynInt32")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))NUM_THREADS")
+    field(VAL,   "8")
+}

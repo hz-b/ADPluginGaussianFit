@@ -83,11 +83,12 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     }
 
     // Initial guesses for parameters
-    double a = 200.0;
-    double x_0 = 200.0;
-    double y_0 = 200.0;
-    double s_x = 1.0;
-    double s_y = 1.0;
+    double a, x_0, y_0, s_x, s_y;
+    getDoubleParam(NDPluginGaussianFitInitAmplitude, &a);
+    getDoubleParam(NDPluginGaussianFitInitX, &x_0);
+    getDoubleParam(NDPluginGaussianFitInitY, &y_0);
+    getDoubleParam(NDPluginGaussianFitInitSx, &s_x);
+    getDoubleParam(NDPluginGaussianFitInitSy, &s_y);
 
     // Add Residual to ceres problem
     ceres::Problem problem;
@@ -103,11 +104,12 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
 
     // Configure solver options
     ceres::Solver::Options opts;
-    opts.max_num_iterations = 100;
-    opts.num_threads = 8;
     opts.linear_solver_type = ceres::DENSE_QR;
     opts.use_nonmonotonic_steps = false;
     opts.minimizer_progress_to_stdout = false;
+
+    getIntegerParam(NDPluginGaussianFitOptMaxNumIterations, &(opts.max_num_iterations));
+    getIntegerParam(NDPluginGaussianFitOptNumThreads, &(opts.num_threads));
 
     ceres::Solver::Summary summary;
     ceres::Solve(opts, &problem, &summary);

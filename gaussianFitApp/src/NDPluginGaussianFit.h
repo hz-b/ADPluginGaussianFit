@@ -29,6 +29,11 @@
 #define NDPluginGaussianFitInitSxString         "INITIAL_SX"            // (asynFloat64)
 #define NDPluginGaussianFitInitSyString         "INITIAL_SY"            // (asynFloat64)
 
+// Solver configuration
+#define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
+#define NDPluginGaussianFitOptNumThreadsString          "NUM_THREADS"           // (asynInt32)
+
+
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
 private:
@@ -56,6 +61,12 @@ protected:
     
     // Initial guess for SigmaY
     int NDPluginGaussianFitInitSy;
+
+    // Ceres Solver Max Number of Iterations 
+    int NDPluginGaussianFitOptMaxNumIterations;
+
+    // Ceres Solver Number of Threads
+    int NDPluginGaussianFitOptNumThreads;
 };
 
 
