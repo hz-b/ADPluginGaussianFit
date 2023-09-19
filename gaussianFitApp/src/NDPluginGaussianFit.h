@@ -40,6 +40,10 @@
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
 
+// Summary
+#define NDPluginGaussianFitTerminationString    "TERMINATION"       // (asynInt32)
+#define NDPluginGaussianFitTotalTimeString      "TOTAL_TIME"        // (asynFloat64)
+
 
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
@@ -89,6 +93,12 @@ protected:
 
     // Fitted value for SigmaY
     int NDPluginGaussianFitSy;
+
+    // Ceres Solver Termination Type
+    int NDPluginGaussianFitTermination;
+
+    // Total time spent in Ceres Solver
+    int NDPluginGaussianFitTotalTime;
 };
 
 

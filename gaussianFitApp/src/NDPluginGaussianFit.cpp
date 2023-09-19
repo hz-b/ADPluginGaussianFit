@@ -118,6 +118,10 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     // Return the lock after computation
     this->lock();
 
+    // Writing summary results to PVs
+    setIntegerParam(NDPluginGaussianFitTermination, summary.termination_type);
+    setDoubleParam(NDPluginGaussianFitTotalTime, summary.total_time_in_seconds);
+
     // Writing fitted params to PVs
     setDoubleParam(NDPluginGaussianFitAmplitude, a);
     setDoubleParam(NDPluginGaussianFitX, x_0);
@@ -161,6 +165,9 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
     createParam(NDPluginGaussianFitYString, asynParamFloat64, &NDPluginGaussianFitY);
     createParam(NDPluginGaussianFitSxString, asynParamFloat64, &NDPluginGaussianFitSx);
     createParam(NDPluginGaussianFitSyString, asynParamFloat64, &NDPluginGaussianFitSy);
+
+    createParam(NDPluginGaussianFitTerminationString, asynParamInt32, &NDPluginGaussianFitTermination);
+    createParam(NDPluginGaussianFitTotalTimeString, asynParamFloat64, &NDPluginGaussianFitTotalTime);
 
     connectToArrayPort();
 }
