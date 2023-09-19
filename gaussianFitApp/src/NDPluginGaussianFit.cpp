@@ -71,7 +71,7 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     // Unlock before computing the Residual
     this->unlock();
 
-    // Create dimension arrays
+    // Create linspace arrays for axis x,y
     vector<double> x_data, y_data;
     for (size_t i = 0; i < sizeY; i++)
     {
@@ -111,12 +111,14 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     getIntegerParam(NDPluginGaussianFitOptMaxNumIterations, &(opts.max_num_iterations));
     getIntegerParam(NDPluginGaussianFitOptNumThreads, &(opts.num_threads));
 
+    // Ceres Solver execution
     ceres::Solver::Summary summary;
     ceres::Solve(opts, &problem, &summary);
 
     // Return the lock after computation
     this->lock();
 
+    // Writing fitted params to PVs
     setDoubleParam(NDPluginGaussianFitAmplitude, a);
     setDoubleParam(NDPluginGaussianFitX, x_0);
     setDoubleParam(NDPluginGaussianFitY, y_0);
