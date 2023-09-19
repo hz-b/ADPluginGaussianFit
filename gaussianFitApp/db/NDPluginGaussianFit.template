@@ -57,44 +57,68 @@ record(ao, "$(P)$(R)Num_Threads")
     field(VAL,   "8")
 }
 
-record( ai, "$(P)$(R)Amplitude_Fitted")
+record(ai, "$(P)$(R)Amplitude_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_AMPLITUDE")
     field(SCAN, "I/O Intr")
 }
 
-record( ai, "$(P)$(R)X_Fitted")
+record(ai, "$(P)$(R)X_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X")
     field(SCAN, "I/O Intr")
 }
 
-record( ai, "$(P)$(R)X_Fitted")
+record(ai, "$(P)$(R)X_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X")
     field(SCAN, "I/O Intr")
 }
 
-record( ai, "$(P)$(R)Y_Fitted")
+record(ai, "$(P)$(R)Y_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_Y")
     field(SCAN, "I/O Intr")
 }
 
-record( ai, "$(P)$(R)SX_Fitted")
+record(ai, "$(P)$(R)SX_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SX")
     field(SCAN, "I/O Intr")
 }
 
-record( ai, "$(P)$(R)SY_Fitted")
+record(ai, "$(P)$(R)SY_Fitted")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SY")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbi, "$(P)$(R)Termination")
+{
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT))TERMINATION")
+    field(ZRST, "CONVERGENCE")
+    field(ZRVL, "0")
+    field(ONST, "NO_CONVERGENCE")
+    field(ONVL, "1")
+    field(TWST, "FAILURE")
+    field(TWVL, "2")
+    field(THST, "USER_SUCCESS")
+    field(THVL, "3")
+    field(FRVL, "USER_FAILURE")
+    field(FRVL, "4")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Total_Time")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TOTAL_TIME")
     field(SCAN, "I/O Intr")
 }
