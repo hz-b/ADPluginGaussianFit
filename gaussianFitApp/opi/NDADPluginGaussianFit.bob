@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-09-18 16:55:59 by lporzio-->
+<!--Saved on 2023-09-19 11:52:43 by lporzio-->
 <display version="2.0.0">
   <name>NDPluginGaussianFit</name>
   <x>460</x>
@@ -155,36 +155,6 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Initial Amplitude</name>
-      <pv_name>$(P)$(R)Initial_Amplitude</pv_name>
-      <x>115</x>
-      <y>24</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
     <widget type="label" version="2.0.0">
       <name>Initial Centroid X</name>
       <text>Centroid X</text>
@@ -194,36 +164,6 @@ $(pv_value)</tooltip>
         </font>
       </font>
       <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Initial Centroid X</name>
-      <pv_name>$(P)$(R)Initial_X</pv_name>
-      <x>115</x>
-      <y>44</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
       <actions>
@@ -251,36 +191,6 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Initial Centroid Y</name>
-      <pv_name>$(P)$(R)Initial_Y</pv_name>
-      <x>115</x>
-      <y>64</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
     <widget type="label" version="2.0.0">
       <name>Initial SigmaX</name>
       <text>SigmaX</text>
@@ -290,36 +200,6 @@ $(pv_value)</tooltip>
         </font>
       </font>
       <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Initial SigmaX</name>
-      <pv_name>$(P)$(R)Initial_SX</pv_name>
-      <x>115</x>
-      <y>84</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
       <actions>
@@ -347,35 +227,65 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Amplitude</name>
+      <pv_name>$(P)$(R)Initial_Amplitude</pv_name>
+      <x>115</x>
+      <y>24</y>
+      <width>90</width>
+      <font>
+        <font family="SansSerif" style="REGULAR" size="10.89">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Centroid X</name>
+      <pv_name>$(P)$(R)Initial_X</pv_name>
+      <x>115</x>
+      <y>44</y>
+      <width>90</width>
+      <font>
+        <font family="SansSerif" style="REGULAR" size="10.89">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Centroid Y</name>
+      <pv_name>$(P)$(R)Initial_Y</pv_name>
+      <x>115</x>
+      <y>64</y>
+      <width>90</width>
+      <font>
+        <font family="SansSerif" style="REGULAR" size="10.89">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial SigmaX</name>
+      <pv_name>$(P)$(R)Initial_SX</pv_name>
+      <x>115</x>
+      <y>84</y>
+      <width>90</width>
+      <font>
+        <font family="SansSerif" style="REGULAR" size="10.89">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textentry" version="3.0.0">
       <name>Initial SigmaY</name>
       <pv_name>$(P)$(R)Initial_SY</pv_name>
       <x>115</x>
       <y>104</y>
       <width>90</width>
-      <height>18</height>
       <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
+        <font family="SansSerif" style="REGULAR" size="10.89">
         </font>
       </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
       <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
