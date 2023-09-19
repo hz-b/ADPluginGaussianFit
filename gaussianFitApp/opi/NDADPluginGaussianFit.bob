@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <!--Saved on 2023-09-19 14:54:29 by lporzio-->
+=======
+<!--Saved on 2023-09-19 13:31:14 by lporzio-->
+>>>>>>> 9d14aef39e80e482c141d48a08fcc79dcd2ed464
 <display version="2.0.0">
   <name>NDPluginGaussianFit</name>
   <x>460</x>
