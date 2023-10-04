@@ -49,11 +49,11 @@ record(ao, "$(P)$(R)Max_Iterations")
     field(VAL,   "100")
 }
 
-record(ao, "$(P)$(R)Num_Threads")
+record(ao, "$(P)$(R)Ceres_Threads")
 {
     field(PINI,  "YES")
     field(DTYP,  "asynInt32")
-    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))NUM_THREADS")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))CERES_THREADS")
     field(VAL,   "8")
 }
 
@@ -111,8 +111,8 @@ record(mbbi, "$(P)$(R)Termination")
     field(TWVL, "2")
     field(THST, "USER_SUCCESS")
     field(THVL, "3")
-    field(FRVL, "USER_FAILURE")
-    field(FRVL, "4")
+#    field(FRVL, "USER_FAILURE")
+#    field(FRVL, "4")
     field(SCAN, "I/O Intr")
 }
 

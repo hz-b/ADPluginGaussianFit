@@ -31,7 +31,7 @@
 
 // Solver configuration
 #define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
-#define NDPluginGaussianFitOptNumThreadsString          "NUM_THREADS"           // (asynInt32)
+#define NDPluginGaussianFitOptNumThreadsString          "CERES_THREADS"           // (asynInt32)
 
 // Fitted Parameters
 #define NDPluginGaussianFitAmplitudeString      "FITTED_AMPLITUDE"      // (asynFloat64)
