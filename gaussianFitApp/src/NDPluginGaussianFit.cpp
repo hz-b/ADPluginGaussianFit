@@ -9,7 +9,6 @@
 
 /* Standard Includes */
 #include <iostream>
-#include <vector>
 
 /* EPICS Includes */
 #include <epicsMutex.h>
@@ -50,11 +49,100 @@ private:
     double z_;
 };
 
+template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(NDArray *pArray, NDGaussianFit_t * pFittedParams)
+{
+    epicsType *pData = (epicsType *)pArray->pData;
+
+    // Add Residual to ceres problem
+    ceres::Problem problem;
+
+    for (size_t i = 0; i < pFittedParams->x_data.size(); i++)
+    {
+        problem.AddResidualBlock(
+            new ceres::AutoDiffCostFunction<GaussianResidual, 1, 1, 1, 1, 1, 1>(
+                new GaussianResidual(pFittedParams->x_data[i], pFittedParams->y_data[i], (double)pData[i])),
+            nullptr,
+            &(pFittedParams->a), &(pFittedParams->x_0), &(pFittedParams->s_x), &(pFittedParams->y_0), &(pFittedParams->s_y));
+    }
+
+    // Configure solver options
+    ceres::Solver::Options opts;
+    opts.linear_solver_type = ceres::DENSE_QR;
+    opts.use_nonmonotonic_steps = false;
+    opts.minimizer_progress_to_stdout = false;
+
+    opts.max_num_iterations = pFittedParams->max_num_iterations;
+    opts.num_threads = pFittedParams->num_threads;
+
+    this->unlock();
+
+    // Ceres Solver execution
+    ceres::Solver::Summary summary;
+    ceres::Solve(opts, &problem, &summary);
+
+    this->lock();
+
+    pFittedParams->termination_type = summary.termination_type;
+    pFittedParams->total_time_in_seconds = summary.total_time_in_seconds;
+
+    return(asynSuccess);
+
+}
+
+asynStatus NDPluginGaussianFit::doComputeParams(NDArray *pArray, NDGaussianFit_t * pFittedParams)
+{
+    asynStatus status;
+
+    switch(pArray->dataType) {
+        case NDInt8:
+            status = doComputeParamsT<epicsInt8>(pArray, pFittedParams);
+            break;
+        case NDUInt8:
+            status = doComputeParamsT<epicsUInt8>(pArray, pFittedParams);
+            break;
+        case NDInt16:
+            status = doComputeParamsT<epicsInt16>(pArray, pFittedParams);
+            break;
+        case NDUInt16:
+            status = doComputeParamsT<epicsUInt16>(pArray, pFittedParams);
+            break;
+        case NDInt32:
+            status = doComputeParamsT<epicsInt32>(pArray, pFittedParams);
+            break;
+        case NDUInt32:
+            status = doComputeParamsT<epicsUInt32>(pArray, pFittedParams);
+            break;
+        case NDInt64:
+            status = doComputeParamsT<epicsInt64>(pArray, pFittedParams);
+            break;
+        case NDUInt64:
+            status = doComputeParamsT<epicsUInt64>(pArray, pFittedParams);
+            break;
+        case NDFloat32:
+            status = doComputeParamsT<epicsFloat32>(pArray, pFittedParams);
+            break;
+        case NDFloat64:
+            status = doComputeParamsT<epicsFloat64>(pArray, pFittedParams);
+            break;
+        default:
+            status = asynError;
+        break;
+    }
+    return(status);
+}
+
 void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
 {
-    static const char *functionName = "processCallbacks";
 
-    epicsFloat64 *pData = (epicsFloat64 *)pArray->pData;
+    // epicsFloat64 *pData = (epicsFloat64 *)pArray->pData;
+
+    // Instantiate new struct
+    NDGaussianFit_t fittedParams;
+
+    // Create pointer to the struct
+    NDGaussianFit_t * pFittedParams = &fittedParams;
+
+    static const char *functionName = "processCallbacks";
 
     // Call base class and get information about the frame
     NDPluginDriver::beginProcessCallbacks(pArray);
@@ -68,69 +156,43 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     if (pArray->ndims > 1)
         sizeY = pArray->dims[1].size;
 
-    // Unlock before computing the Residual
-    this->unlock();
-
     // Create linspace arrays for axis x,y
-    vector<double> x_data, y_data;
     for (size_t i = 0; i < sizeY; i++)
     {
         for (size_t j = 0; j < sizeX; j++)
         {
-            x_data.push_back((double)j);
-            y_data.push_back((double)i);
+            pFittedParams->x_data.push_back((double)j);
+            pFittedParams->y_data.push_back((double)i);
         }
     }
 
     // Initial guesses for parameters
-    double a, x_0, y_0, s_x, s_y;
-    getDoubleParam(NDPluginGaussianFitInitAmplitude, &a);
-    getDoubleParam(NDPluginGaussianFitInitX, &x_0);
-    getDoubleParam(NDPluginGaussianFitInitY, &y_0);
-    getDoubleParam(NDPluginGaussianFitInitSx, &s_x);
-    getDoubleParam(NDPluginGaussianFitInitSy, &s_y);
 
-    // Add Residual to ceres problem
-    ceres::Problem problem;
+    getDoubleParam(NDPluginGaussianFitInitAmplitude, &pFittedParams->a);
+    getDoubleParam(NDPluginGaussianFitInitX, &pFittedParams->x_0);
+    getDoubleParam(NDPluginGaussianFitInitY, &pFittedParams->y_0);
+    getDoubleParam(NDPluginGaussianFitInitSx, &pFittedParams->s_x);
+    getDoubleParam(NDPluginGaussianFitInitSy, &pFittedParams->s_y);
 
-    for (size_t i = 0; i < x_data.size(); i++)
-    {
-        problem.AddResidualBlock(
-            new ceres::AutoDiffCostFunction<GaussianResidual, 1, 1, 1, 1, 1, 1>(
-                new GaussianResidual(x_data[i], y_data[i], (double)pData[i])),
-            nullptr,
-            &a, &x_0, &s_x, &y_0, &s_y);
-    }
+    // options for ceres solver
+    getIntegerParam(NDPluginGaussianFitOptMaxNumIterations, &pFittedParams->max_num_iterations);
+    getIntegerParam(NDPluginGaussianFitOptNumThreads, &pFittedParams->num_threads);
 
-    // Configure solver options
-    ceres::Solver::Options opts;
-    opts.linear_solver_type = ceres::DENSE_QR;
-    opts.use_nonmonotonic_steps = false;
-    opts.minimizer_progress_to_stdout = false;
-
-    getIntegerParam(NDPluginGaussianFitOptMaxNumIterations, &(opts.max_num_iterations));
-    getIntegerParam(NDPluginGaussianFitOptNumThreads, &(opts.num_threads));
-
-    // Ceres Solver execution
-    ceres::Solver::Summary summary;
-    ceres::Solve(opts, &problem, &summary);
-
-    // Return the lock after computation
-    this->lock();
-
-    // Writing summary results to PVs
-    setIntegerParam(NDPluginGaussianFitTermination, summary.termination_type);
-    setDoubleParam(NDPluginGaussianFitTotalTime, summary.total_time_in_seconds);
+    doComputeParams(pArray, pFittedParams);
 
     // Writing fitted params to PVs
-    setDoubleParam(NDPluginGaussianFitAmplitude, a);
-    setDoubleParam(NDPluginGaussianFitX, x_0);
-    setDoubleParam(NDPluginGaussianFitY, y_0);
-    setDoubleParam(NDPluginGaussianFitSx, s_x);
-    setDoubleParam(NDPluginGaussianFitSy, s_y);
+    setDoubleParam(NDPluginGaussianFitAmplitude, pFittedParams->a);
+    setDoubleParam(NDPluginGaussianFitX, pFittedParams->x_0);
+    setDoubleParam(NDPluginGaussianFitY, pFittedParams->y_0);
+    setDoubleParam(NDPluginGaussianFitSx, pFittedParams->s_x);
+    setDoubleParam(NDPluginGaussianFitSy, pFittedParams->s_y);
 
-    asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s Fitted Params:\nAmplitude: %f\nX0: %f\n Y0: %f\nSx: %f\nSy: %f\n", driverName, functionName,
-              a, x_0, y_0, s_x, s_y);
+    // Writing summary results to PVs
+    setIntegerParam(NDPluginGaussianFitTermination, pFittedParams->termination_type);
+    setDoubleParam(NDPluginGaussianFitTotalTime, pFittedParams->total_time_in_seconds);
+
+    asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Fitted Params:\nAmplitude: %f\nX0: %f\n Y0: %f\nSx: %f\nSy: %f\n", driverName, functionName,
+        pFittedParams->a, pFittedParams->x_0, pFittedParams->y_0, pFittedParams->s_x, pFittedParams->s_y);
 
     callParamCallbacks();
 }
