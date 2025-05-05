@@ -9,12 +9,26 @@ record(ao, "$(P)$(R)Initial_Amplitude")
     field(VAL,   "255.0")
 }
 
+record(ai, "$(P)$(R)Initial_Amplitude_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Initial_Amplitude CPP")
+    field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Initial_X")
 {
     field(PINI,  "YES")
     field(DTYP,  "asynFloat64")
     field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_X")
     field(VAL,   "255.0")
+}
+
+record(ai, "$(P)$(R)Initial_X_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Initial_X CPP")
+    field(VAL,   "0")
 }
 
 record(ao, "$(P)$(R)Initial_Y")
@@ -25,12 +39,26 @@ record(ao, "$(P)$(R)Initial_Y")
     field(VAL,   "255.0")
 }
 
+record(ai, "$(P)$(R)Initial_Y_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Initial_Y CPP")
+    field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Initial_SX")
 {
     field(PINI,  "YES")
     field(DTYP,  "asynFloat64")
     field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))INITIAL_SX")
     field(VAL,   "255.0")
+}
+
+record(ai, "$(P)$(R)Initial_SX_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Initial_SX CPP")
+    field(VAL,   "0")
 }
 
 record(ao, "$(P)$(R)Initial_SY")
@@ -41,6 +69,13 @@ record(ao, "$(P)$(R)Initial_SY")
     field(VAL,   "255.0")
 }
 
+record(ai, "$(P)$(R)Initial_SY_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Initial_SY CPP")
+    field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Max_Iterations")
 {
     field(PINI,  "YES")
@@ -49,12 +84,26 @@ record(ao, "$(P)$(R)Max_Iterations")
     field(VAL,   "100")
 }
 
+record(ai, "$(P)$(R)Max_Iterations_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Max_Iterations CPP")
+    field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Ceres_Threads")
 {
     field(PINI,  "YES")
     field(DTYP,  "asynInt32")
     field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))CERES_THREADS")
     field(VAL,   "8")
+}
+
+record(ai, "$(P)$(R)Ceres_Threads_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)Ceres_Threads CPP")
+    field(VAL,   "0")
 }
 
 record(ai, "$(P)$(R)Amplitude_Fitted")

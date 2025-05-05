@@ -10,12 +10,31 @@
 #ifndef NDPluginGaussianFit_H
 #define NDPluginGaussianFit_H
 
+/* Standard includes */
+#include <vector>
+
 /* AreaDetector includes */
 #include "NDPluginDriver.h"
 
 
 /* Ceres include */
 #include "ceres/ceres.h"
+
+typedef struct NDGaussianFit{
+
+    std::vector<double> x_data;
+    std::vector<double> y_data;
+    double a;
+    double x_0;
+    double y_0;
+    double s_x;
+    double s_y;
+    int max_num_iterations;
+    int num_threads;
+    int termination_type;
+    double total_time_in_seconds;
+
+} NDGaussianFit_t;
 
 //version numbers
 #define GAUSSIAN_FIT_VERSION 2
@@ -56,6 +75,10 @@ public:
 
     /* Override the virtual method in the base class */
     void processCallbacks(NDArray *pArray);
+
+    template <typename epicsType> asynStatus doComputeParamsT(NDArray *pArray, NDGaussianFit_t * pFittedParams);
+    asynStatus doComputeParams(NDArray *pArray, NDGaussianFit_t * pFittedParams);
+
 
 protected:
     // Initial guess for Amplitude
