@@ -70,7 +70,8 @@ typedef struct NDGaussianFit{
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
 private:
-    /* data */
+    bool justEnabled;
+
 public:
     NDPluginGaussianFit(const char *portName, int queueSize, int blockingCallbacks,
                         const char *NDArrayPort, int NDArrayAddr, int maxBuffers,
@@ -78,6 +79,9 @@ public:
 
     /* Override the virtual method in the base class */
     void processCallbacks(NDArray *pArray);
+
+    /* Override writeInt32 detect enable/disable transitions */
+    asynStatus writeInt32(asynUser* pasynUser, epicsInt32 value);
 
     template <typename epicsType> asynStatus doComputeParamsT(NDArray *pArray, NDGaussianFit_t * pFittedParams);
     asynStatus doComputeParams(NDArray *pArray, NDGaussianFit_t * pFittedParams);
