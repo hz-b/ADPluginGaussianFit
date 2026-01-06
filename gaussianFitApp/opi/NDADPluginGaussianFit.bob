@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2023-09-19 16:41:45 by lporzio-->
 <display version="2.0.0">
   <name>NDPluginGaussianFit</name>
   <x>460</x>
@@ -14,24 +13,6 @@
   </actions>
   <grid_step_x>5</grid_step_x>
   <grid_step_y>5</grid_step_y>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rectangle</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <y>5</y>
-    <width>710</width>
-    <height>25</height>
-    <line_width>0</line_width>
-    <line_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </line_color>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
   <widget type="embedded" version="2.0.0">
     <name>Linking Container</name>
     <file>NDPluginBase.opi</file>
@@ -62,626 +43,37 @@ $(pv_value)</tooltip>
       <color red="10" green="0" blue="184">
       </color>
     </foreground_color>
+    <background_color>
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
     <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
     <wrap_words>false</wrap_words>
     <actions>
     </actions>
     <border_color>
-      <color red="0" green="128" blue="255">
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
       </color>
     </border_color>
   </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rectangle</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <x>390</x>
-    <y>40</y>
-    <width>320</width>
-    <height>210</height>
-    <line_width>0</line_width>
-    <line_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </line_color>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rectangle_2</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <x>390</x>
-    <y>265</y>
-    <width>320</width>
-    <height>210</height>
-    <line_width>0</line_width>
-    <line_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </line_color>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Initial</name>
-    <x>491</x>
-    <y>40</y>
-    <width>205</width>
-    <height>124</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Initial Guesses</name>
-      <text>Initial Guesses</text>
-      <x>45</x>
-      <width>160</width>
-      <font>
-        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Initial Amplitude</name>
-      <text>Amplitude</text>
-      <y>24</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Initial Centroid X</name>
-      <text>Centroid X</text>
-      <y>44</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Initial Centroid Y</name>
-      <text>Centroid Y</text>
-      <y>64</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Initial SigmaX</name>
-      <text>SigmaX</text>
-      <y>84</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Initial SigmaY</name>
-      <text>SigmaY</text>
-      <y>104</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Initial Amplitude</name>
-      <pv_name>$(P)$(R)Initial_Amplitude</pv_name>
-      <x>115</x>
-      <y>24</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Initial Centroid X</name>
-      <pv_name>$(P)$(R)Initial_X</pv_name>
-      <x>115</x>
-      <y>44</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Initial Centroid Y</name>
-      <pv_name>$(P)$(R)Initial_Y</pv_name>
-      <x>115</x>
-      <y>64</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Initial SigmaX</name>
-      <pv_name>$(P)$(R)Initial_SX</pv_name>
-      <x>115</x>
-      <y>84</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Initial SigmaY</name>
-      <pv_name>$(P)$(R)Initial_SY</pv_name>
-      <x>115</x>
-      <y>104</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Fitted</name>
-    <x>491</x>
-    <y>340</y>
-    <width>205</width>
-    <height>124</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Fitted Params</name>
-      <text>Fitted Params</text>
-      <x>45</x>
-      <width>160</width>
-      <font>
-        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Fitted Amplitude</name>
-      <text>Amplitude</text>
-      <y>24</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Fitted Amplitude</name>
-      <pv_name>$(P)$(R)Amplitude_Fitted</pv_name>
-      <x>115</x>
-      <y>24</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Fitted Centroid X</name>
-      <text>Centroid X</text>
-      <y>44</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Fitted Centroid X</name>
-      <pv_name>$(P)$(R)X_Fitted</pv_name>
-      <x>115</x>
-      <y>44</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Fitted Centroid Y</name>
-      <text>Centroid Y</text>
-      <y>64</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Fitted Centroid Y</name>
-      <pv_name>$(P)$(R)Y_Fitted</pv_name>
-      <x>115</x>
-      <y>64</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Fitted SigmaX</name>
-      <text>SigmaX</text>
-      <y>84</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Fitted SigmaX</name>
-      <pv_name>$(P)$(R)SX_Fitted</pv_name>
-      <x>115</x>
-      <y>84</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Fitted SigmaY</name>
-      <text>SigmaY</text>
-      <y>104</y>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Fitted SigmaY</name>
-      <pv_name>$(P)$(R)SY_Fitted</pv_name>
-      <x>115</x>
-      <y>104</y>
-      <width>90</width>
-      <height>18</height>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="10" green="0" blue="184">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="187" green="187" blue="187">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Solver Options</name>
-    <x>450</x>
-    <y>180</y>
-    <width>246</width>
-    <height>60</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Solver Options</name>
-      <text>Solver Options</text>
-      <x>86</x>
-      <width>160</width>
-      <font>
-        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Max Number of Iterations</name>
-      <text>Max Number of Iterations</text>
-      <y>20</y>
-      <width>141</width>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Max Number of Iterations</name>
-      <pv_name>$(P)$(R)Max_Iterations</pv_name>
-      <x>156</x>
-      <y>20</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Number of Threads</name>
-      <text>Number of CPU Threads</text>
-      <y>40</y>
-      <width>141</width>
-      <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textentry" version="3.0.0">
-      <name>Number of Threads</name>
-      <pv_name>$(P)$(R)Num_Threads</pv_name>
-      <x>156</x>
-      <y>40</y>
-      <width>90</width>
-      <font>
-        <font family="SansSerif" style="REGULAR" size="10.89">
-        </font>
-      </font>
-      <show_units>false</show_units>
-    </widget>
-  </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>Summary</name>
-    <x>491</x>
-    <y>265</y>
-    <width>205</width>
-    <height>60</height>
+    <x>390</x>
+    <y>220</y>
+    <width>330</width>
+    <height>90</height>
     <style>3</style>
     <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Solver Summary</name>
-      <text>Solver Summary</text>
-      <x>45</x>
-      <width>160</width>
-      <font>
-        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Termination</name>
       <pv_name>$(P)$(R)Termination</pv_name>
-      <x>115</x>
-      <y>20</y>
-      <width>90</width>
+      <x>150</x>
+      <y>32</y>
+      <width>145</width>
       <height>18</height>
       <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
       <foreground_color>
@@ -692,7 +84,7 @@ $(pv_value)</tooltip>
         <color red="187" green="187" blue="187">
         </color>
       </background_color>
-      <format>1</format>
+      <format>6</format>
       <show_units>false</show_units>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
@@ -706,9 +98,29 @@ $(pv_value)</tooltip>
     <widget type="label" version="2.0.0">
       <name>Termination</name>
       <text>Termination</text>
-      <y>20</y>
+      <x>35</x>
+      <y>30</y>
       <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Total Time</name>
+      <text>Total Time</text>
+      <x>35</x>
+      <y>53</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
       <horizontal_alignment>2</horizontal_alignment>
@@ -724,12 +136,429 @@ $(pv_value)</tooltip>
     <widget type="textupdate" version="2.0.0">
       <name>Total Time</name>
       <pv_name>$(P)$(R)Total_Time</pv_name>
-      <x>115</x>
-      <y>38</y>
+      <x>150</x>
+      <y>55</y>
       <width>90</width>
       <height>18</height>
       <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>4</precision>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Solver Summary</name>
+      <text>Solver Summary</text>
+      <x>89</x>
+      <y>2</y>
+      <width>129</width>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>sec</name>
+      <text>sec</text>
+      <x>209</x>
+      <y>53</y>
+      <width>35</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="rectangle" version="2.0.0">
+      <name>Background</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <width>330</width>
+      <height>90</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Settings</name>
+    <x>390</x>
+    <y>325</y>
+    <width>330</width>
+    <height>290</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="rectangle" version="2.0.0">
+      <name>Background_1</name>
+      <macros>
+        <pv_name></pv_name>
+      </macros>
+      <width>330</width>
+      <height>290</height>
+      <line_width>1</line_width>
+      <line_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </line_color>
+      <background_color>
+        <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial Guesses</name>
+      <text>Initial Guesses</text>
+      <x>90</x>
+      <y>2</y>
+      <width>115</width>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial Amplitude</name>
+      <text>Amplitude</text>
+      <x>35</x>
+      <y>35</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial Centroid X</name>
+      <text>Centroid X</text>
+      <x>35</x>
+      <y>58</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Amplitude</name>
+      <pv_name>$(P)$(R)Initial_Amplitude</pv_name>
+      <x>150</x>
+      <y>35</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Centroid X</name>
+      <pv_name>$(P)$(R)Initial_X</pv_name>
+      <x>150</x>
+      <y>58</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial Centroid Y</name>
+      <text>Centroid Y</text>
+      <x>35</x>
+      <y>81</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial Centroid Y</name>
+      <pv_name>$(P)$(R)Initial_Y</pv_name>
+      <x>150</x>
+      <y>81</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial SigmaX</name>
+      <text>WidthX</text>
+      <x>35</x>
+      <y>104</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial SigmaX</name>
+      <pv_name>$(P)$(R)Initial_SX</pv_name>
+      <x>150</x>
+      <y>104</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Initial SigmaY</name>
+      <text>WidthY</text>
+      <x>35</x>
+      <y>127</y>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Initial SigmaY</name>
+      <pv_name>$(P)$(R)Initial_SY</pv_name>
+      <x>150</x>
+      <y>127</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Initial Amplitude RBV</name>
+      <pv_name>$(P)$(R)Initial_Amplitude_RBV</pv_name>
+      <x>255</x>
+      <y>35</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Initial X RBV</name>
+      <pv_name>$(P)$(R)Initial_X_RBV</pv_name>
+      <x>255</x>
+      <y>58</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Initial Y RBV</name>
+      <pv_name>$(P)$(R)Initial_Y_RBV</pv_name>
+      <x>255</x>
+      <y>81</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Initial SigmaX RBV</name>
+      <pv_name>$(P)$(R)Initial_SX_RBV</pv_name>
+      <x>255</x>
+      <y>104</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Initial SigmaY RBV</name>
+      <pv_name>$(P)$(R)Initial_SY_RBV</pv_name>
+      <x>255</x>
+      <y>127</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
       <foreground_color>
@@ -752,11 +581,13 @@ $(pv_value)</tooltip>
       </border_color>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>Total Time</name>
-      <text>Total Time</text>
-      <y>40</y>
+      <name>Solver Options</name>
+      <text>Solver Options</text>
+      <x>55</x>
+      <y>160</y>
+      <width>160</width>
       <font>
-        <font family="Sans" style="REGULAR" size="10.891089108910892">
+        <font family="Liberation Sans" style="BOLD" size="16.0">
         </font>
       </font>
       <horizontal_alignment>2</horizontal_alignment>
@@ -769,5 +600,449 @@ $(pv_value)</tooltip>
         </color>
       </border_color>
     </widget>
+    <widget type="label" version="2.0.0">
+      <name>Max Number of Iterations</name>
+      <text>Max Num of Iterations</text>
+      <x>10</x>
+      <y>188</y>
+      <width>126</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Max Number of Iterations</name>
+      <pv_name>$(P)$(R)Max_Iterations</pv_name>
+      <x>150</x>
+      <y>188</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Max_Iterations_RBV</name>
+      <pv_name>$(P)$(R)Max_Iterations_RBV</pv_name>
+      <x>255</x>
+      <y>188</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Number of Threads</name>
+      <text>Num of Threads</text>
+      <x>10</x>
+      <y>211</y>
+      <width>126</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>Number of Threads</name>
+      <pv_name>$(P)$(R)Ceres_Threads</pv_name>
+      <x>150</x>
+      <y>211</y>
+      <width>90</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <show_units>false</show_units>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Ceres_Threads_RBV</name>
+      <pv_name>$(P)$(R)Ceres_Threads_RBV</pv_name>
+      <x>255</x>
+      <y>211</y>
+      <width>65</width>
+      <height>18</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="10" green="0" blue="184">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Overwrite</name>
+      <text>Use Previous Guesses</text>
+      <x>25</x>
+      <y>255</y>
+      <width>180</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box</name>
+      <pv_name>$(P)$(R)Overwrite_Initials</pv_name>
+      <label></label>
+      <x>221</x>
+      <y>255</y>
+    </widget>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Background_2</name>
+    <macros>
+      <pv_name></pv_name>
+    </macros>
+    <x>390</x>
+    <y>40</y>
+    <width>330</width>
+    <height>165</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <background_color>
+      <color name="Transparent" red="255" green="255" blue="255" alpha="0">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted Params</name>
+    <text>Fitted Params</text>
+    <x>490</x>
+    <y>42</y>
+    <width>110</width>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted Amplitude</name>
+    <text>Amplitude</text>
+    <x>425</x>
+    <y>75</y>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted Centroid X</name>
+    <text>Centroid X</text>
+    <x>425</x>
+    <y>98</y>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Fitted Amplitude</name>
+    <pv_name>$(P)$(R)Amplitude_Fitted</pv_name>
+    <x>540</x>
+    <y>75</y>
+    <width>90</width>
+    <height>18</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>6</precision>
+    <show_units>false</show_units>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Fitted Centroid X</name>
+    <pv_name>$(P)$(R)X_Fitted</pv_name>
+    <x>540</x>
+    <y>98</y>
+    <width>90</width>
+    <height>18</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>6</precision>
+    <show_units>false</show_units>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted Centroid Y</name>
+    <text>Centroid Y</text>
+    <x>425</x>
+    <y>121</y>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Fitted Centroid Y</name>
+    <pv_name>$(P)$(R)Y_Fitted</pv_name>
+    <x>540</x>
+    <y>121</y>
+    <width>90</width>
+    <height>18</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>6</precision>
+    <show_units>false</show_units>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted SigmaX</name>
+    <text>WidthX</text>
+    <x>425</x>
+    <y>144</y>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Fitted SigmaX</name>
+    <pv_name>$(P)$(R)SX_Fitted</pv_name>
+    <x>540</x>
+    <y>144</y>
+    <width>90</width>
+    <height>18</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>6</precision>
+    <show_units>false</show_units>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Fitted SigmaY</name>
+    <text>WidthY</text>
+    <x>425</x>
+    <y>167</y>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Fitted SigmaY</name>
+    <pv_name>$(P)$(R)SY_Fitted</pv_name>
+    <x>540</x>
+    <y>167</y>
+    <width>90</width>
+    <height>18</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="10" green="0" blue="184">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>6</precision>
+    <show_units>false</show_units>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
   </widget>
 </display>
