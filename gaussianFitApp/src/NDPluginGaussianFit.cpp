@@ -134,8 +134,6 @@ asynStatus NDPluginGaussianFit::doComputeParams(NDArray *pArray, NDGaussianFit_t
 void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
 {
 
-    // epicsFloat64 *pData = (epicsFloat64 *)pArray->pData;
-
     // Instantiate new struct
     NDGaussianFit_t fittedParams;
 
@@ -167,7 +165,6 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     }
 
     // Initial guesses for parameters
-
     getDoubleParam(NDPluginGaussianFitInitAmplitude, &pFittedParams->a);
     getDoubleParam(NDPluginGaussianFitInitX, &pFittedParams->x_0);
     getDoubleParam(NDPluginGaussianFitInitY, &pFittedParams->y_0);
@@ -186,6 +183,17 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     setDoubleParam(NDPluginGaussianFitY, pFittedParams->y_0);
     setDoubleParam(NDPluginGaussianFitSx, pFittedParams->s_x);
     setDoubleParam(NDPluginGaussianFitSy, pFittedParams->s_y);
+
+    epicsInt32 overwrite_initials = 0;
+
+    if(getIntegerParam(NDPluginGaussianFitOverwriteInit, &overwrite_initials) == 1)
+    {
+        setDoubleParam(NDPluginGaussianFitInitAmplitude, pFittedParams->a);
+        setDoubleParam(NDPluginGaussianFitInitX, pFittedParams->x_0);
+        setDoubleParam(NDPluginGaussianFitInitY, pFittedParams->y_0);
+        setDoubleParam(NDPluginGaussianFitInitSx, pFittedParams->s_x);
+        setDoubleParam(NDPluginGaussianFitInitSy, pFittedParams->s_y);
+    }
 
     // Writing summary results to PVs
     setIntegerParam(NDPluginGaussianFitTermination, pFittedParams->termination_type);
@@ -227,6 +235,8 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
     createParam(NDPluginGaussianFitYString, asynParamFloat64, &NDPluginGaussianFitY);
     createParam(NDPluginGaussianFitSxString, asynParamFloat64, &NDPluginGaussianFitSx);
     createParam(NDPluginGaussianFitSyString, asynParamFloat64, &NDPluginGaussianFitSy);
+
+    createParam(NDPluginGaussianFitOverwriteInitString, asynParamInt32, &NDPluginGaussianFitOverwriteInit);
 
     createParam(NDPluginGaussianFitTerminationString, asynParamInt32, &NDPluginGaussianFitTermination);
     createParam(NDPluginGaussianFitTotalTimeString, asynParamFloat64, &NDPluginGaussianFitTotalTime);
