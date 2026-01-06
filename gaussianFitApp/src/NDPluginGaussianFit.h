@@ -37,7 +37,7 @@ typedef struct NDGaussianFit{
 } NDGaussianFit_t;
 
 //version numbers
-#define GAUSSIAN_FIT_VERSION 2
+#define GAUSSIAN_FIT_VERSION 0
 #define GAUSSIAN_FIT_REVISION 1
 #define GAUSSIAN_FIT_MODIFICATION 0
 
@@ -58,6 +58,9 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitYString              "FITTED_Y"              // (asynFloat64)
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
+
+// Overwrite Initial Guesses
+#define NDPluginGaussianFitOverwriteInitString  "OVERWRITE"    // (asynInt32)
 
 // Summary
 #define NDPluginGaussianFitTerminationString    "TERMINATION"       // (asynInt32)
@@ -116,6 +119,9 @@ protected:
 
     // Fitted value for SigmaY
     int NDPluginGaussianFitSy;
+
+    // Flag to Overwrite Initial Guesses with latest Fitted values
+    int NDPluginGaussianFitOverwriteInit;
 
     // Ceres Solver Termination Type
     int NDPluginGaussianFitTermination;

@@ -171,3 +171,11 @@ record(ai, "$(P)$(R)Total_Time")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))TOTAL_TIME")
     field(SCAN, "I/O Intr")
 }
+
+record(ai, "$(P)$(R)Overwrite_Initials")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))OVERWRITE")
+    field(SCAN, "I/O Intr")
+    field(VAL,   "0")
+}
