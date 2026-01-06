@@ -38,7 +38,7 @@ typedef struct NDGaussianFit{
 
 //version numbers
 #define GAUSSIAN_FIT_VERSION 0
-#define GAUSSIAN_FIT_REVISION 1
+#define GAUSSIAN_FIT_REVISION 2
 #define GAUSSIAN_FIT_MODIFICATION 0
 
 // Initial guesses
