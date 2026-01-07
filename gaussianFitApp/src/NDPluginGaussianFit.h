@@ -37,8 +37,8 @@ typedef struct NDGaussianFit{
 } NDGaussianFit_t;
 
 //version numbers
-#define GAUSSIAN_FIT_VERSION 2
-#define GAUSSIAN_FIT_REVISION 1
+#define GAUSSIAN_FIT_VERSION 0
+#define GAUSSIAN_FIT_REVISION 2
 #define GAUSSIAN_FIT_MODIFICATION 0
 
 // Initial guesses
@@ -59,6 +59,9 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
 
+// Overwrite Initial Guesses
+#define NDPluginGaussianFitOverwriteInitString  "OVERWRITE"    // (asynInt32)
+
 // Summary
 #define NDPluginGaussianFitTerminationString    "TERMINATION"       // (asynInt32)
 #define NDPluginGaussianFitTotalTimeString      "TOTAL_TIME"        // (asynFloat64)
@@ -67,7 +70,8 @@ typedef struct NDGaussianFit{
 class NDPLUGIN_API NDPluginGaussianFit : public NDPluginDriver
 {
 private:
-    /* data */
+    bool justEnabled;
+
 public:
     NDPluginGaussianFit(const char *portName, int queueSize, int blockingCallbacks,
                         const char *NDArrayPort, int NDArrayAddr, int maxBuffers,
@@ -75,6 +79,9 @@ public:
 
     /* Override the virtual method in the base class */
     void processCallbacks(NDArray *pArray);
+
+    /* Override writeInt32 detect enable/disable transitions */
+    asynStatus writeInt32(asynUser* pasynUser, epicsInt32 value);
 
     template <typename epicsType> asynStatus doComputeParamsT(NDArray *pArray, NDGaussianFit_t * pFittedParams);
     asynStatus doComputeParams(NDArray *pArray, NDGaussianFit_t * pFittedParams);
@@ -116,6 +123,9 @@ protected:
 
     // Fitted value for SigmaY
     int NDPluginGaussianFitSy;
+
+    // Flag to Overwrite Initial Guesses with latest Fitted values
+    int NDPluginGaussianFitOverwriteInit;
 
     // Ceres Solver Termination Type
     int NDPluginGaussianFitTermination;
