@@ -171,7 +171,7 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
 
     if(useInit)
     {
-        if(justEnabled) asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Just Enabled\n", driverName, functionName);
+        if(justEnabled) asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Just Enabled. Using User Defined Initial Guesses\n", driverName, functionName);
         // Initial guesses for parameters
         getDoubleParam(NDPluginGaussianFitInitAmplitude, &pFittedParams->a);
         getDoubleParam(NDPluginGaussianFitInitX, &pFittedParams->x_0);
@@ -189,9 +189,6 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
         getDoubleParam(NDPluginGaussianFitSy, &pFittedParams->s_y);
         asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Overwrite On\n", driverName, functionName);
     }
-
-    asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Initial Params:\nAmplitude: %f\nX0: %f\n Y0: %f\nSx: %f\nSy: %f\n", driverName, functionName,
-        pFittedParams->a, pFittedParams->x_0, pFittedParams->y_0, pFittedParams->s_x, pFittedParams->s_y);
 
     // Reset after first use
     justEnabled = false;
