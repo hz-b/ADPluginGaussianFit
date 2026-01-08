@@ -120,13 +120,6 @@ record(ai, "$(P)$(R)X_Fitted")
     field(SCAN, "I/O Intr")
 }
 
-record(ai, "$(P)$(R)X_Fitted")
-{
-    field(DTYP, "asynFloat64")
-    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X")
-    field(SCAN, "I/O Intr")
-}
-
 record(ai, "$(P)$(R)Y_Fitted")
 {
     field(DTYP, "asynFloat64")
