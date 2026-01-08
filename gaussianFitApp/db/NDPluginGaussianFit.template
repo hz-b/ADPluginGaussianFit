@@ -160,8 +160,6 @@ record(mbbi, "$(P)$(R)Termination")
     field(TWVL, "2")
     field(THST, "USER_SUCCESS")
     field(THVL, "3")
-#    field(FRVL, "USER_FAILURE")
-#    field(FRVL, "4")
     field(SCAN, "I/O Intr")
 }
 
