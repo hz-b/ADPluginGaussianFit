@@ -134,8 +134,6 @@ asynStatus NDPluginGaussianFit::doComputeParams(NDArray *pArray, NDGaussianFit_t
 void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
 {
 
-    // epicsFloat64 *pData = (epicsFloat64 *)pArray->pData;
-
     // Instantiate new struct
     NDGaussianFit_t fittedParams;
 
@@ -166,13 +164,34 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
         }
     }
 
-    // Initial guesses for parameters
+    epicsInt32 overwriteInitials = 0;
+    getIntegerParam(NDPluginGaussianFitOverwriteInit, &overwriteInitials);
 
-    getDoubleParam(NDPluginGaussianFitInitAmplitude, &pFittedParams->a);
-    getDoubleParam(NDPluginGaussianFitInitX, &pFittedParams->x_0);
-    getDoubleParam(NDPluginGaussianFitInitY, &pFittedParams->y_0);
-    getDoubleParam(NDPluginGaussianFitInitSx, &pFittedParams->s_x);
-    getDoubleParam(NDPluginGaussianFitInitSy, &pFittedParams->s_y);
+    const bool useInit = justEnabled || overwriteInitials == 0;
+
+    if(useInit)
+    {
+        if(justEnabled) asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Just Enabled. Using User Defined Initial Guesses\n", driverName, functionName);
+        // Initial guesses for parameters
+        getDoubleParam(NDPluginGaussianFitInitAmplitude, &pFittedParams->a);
+        getDoubleParam(NDPluginGaussianFitInitX, &pFittedParams->x_0);
+        getDoubleParam(NDPluginGaussianFitInitY, &pFittedParams->y_0);
+        getDoubleParam(NDPluginGaussianFitInitSx, &pFittedParams->s_x);
+        getDoubleParam(NDPluginGaussianFitInitSy, &pFittedParams->s_y);
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Overwrite Off\n", driverName, functionName);
+    }
+    else 
+    {
+        getDoubleParam(NDPluginGaussianFitAmplitude, &pFittedParams->a);
+        getDoubleParam(NDPluginGaussianFitX, &pFittedParams->x_0);
+        getDoubleParam(NDPluginGaussianFitY, &pFittedParams->y_0);
+        getDoubleParam(NDPluginGaussianFitSx, &pFittedParams->s_x);
+        getDoubleParam(NDPluginGaussianFitSy, &pFittedParams->s_y);
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Overwrite On\n", driverName, functionName);
+    }
+
+    // Reset after first use
+    justEnabled = false;
 
     // options for ceres solver
     getIntegerParam(NDPluginGaussianFitOptMaxNumIterations, &pFittedParams->max_num_iterations);
@@ -195,7 +214,31 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
         pFittedParams->a, pFittedParams->x_0, pFittedParams->y_0, pFittedParams->s_x, pFittedParams->s_y);
 
     callParamCallbacks();
+
+    NDPluginDriver::endProcessCallbacks(pArray, true, true);
 }
+
+asynStatus NDPluginGaussianFit::writeInt32(asynUser* pasynUser, epicsInt32 value)
+{
+    int function = pasynUser->reason;
+
+    if (function == NDPluginDriverEnableCallbacks) {
+        int oldVal = 0;
+        getIntegerParam(NDPluginDriverEnableCallbacks, &oldVal);
+
+        // Let base class do the actual enable/disable bookkeeping
+        asynStatus status = NDPluginDriver::writeInt32(pasynUser, value);
+
+        if (oldVal == 0 && value == 1) {
+            // plugin has JUST been enabled
+            justEnabled = true;
+        }
+        return status;
+    }
+
+    return NDPluginDriver::writeInt32(pasynUser, value);
+}
+
 
 NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, int blockingCallbacks,
                                          const char *NDArrayPort, int NDArrayAddr, int maxBuffers,
@@ -206,6 +249,8 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
                      asynInt32ArrayMask | asynFloat64ArrayMask | asynGenericPointerMask,
                      ASYN_MULTIDEVICE, 1, priority, stackSize, 1)
 {
+
+    justEnabled = false;
 
     char versionString[25];
 
@@ -227,6 +272,8 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
     createParam(NDPluginGaussianFitYString, asynParamFloat64, &NDPluginGaussianFitY);
     createParam(NDPluginGaussianFitSxString, asynParamFloat64, &NDPluginGaussianFitSx);
     createParam(NDPluginGaussianFitSyString, asynParamFloat64, &NDPluginGaussianFitSy);
+
+    createParam(NDPluginGaussianFitOverwriteInitString, asynParamInt32, &NDPluginGaussianFitOverwriteInit);
 
     createParam(NDPluginGaussianFitTerminationString, asynParamInt32, &NDPluginGaussianFitTermination);
     createParam(NDPluginGaussianFitTotalTimeString, asynParamFloat64, &NDPluginGaussianFitTotalTime);
