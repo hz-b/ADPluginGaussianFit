@@ -148,6 +148,13 @@ record(ai, "$(P)$(R)Background_Fitted")
     field(SCAN, "I/O Intr")
 }
 
+record(ai, "$(P)$(R)Theta_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_THETA")
+    field(SCAN, "I/O Intr")
+}
+
 record(ai, "$(P)$(R)Amplitude_Err")
 {
     field(DTYP, "asynFloat64")
@@ -180,6 +187,13 @@ record(ai, "$(P)$(R)SY_Err")
 {
     field(DTYP, "asynFloat64")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SY_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Theta_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_THETA_ERR")
     field(SCAN, "I/O Intr")
 }
 

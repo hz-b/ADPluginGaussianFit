@@ -30,11 +30,13 @@ typedef struct NDGaussianFit{
     double y_0;
     double s_x;
     double s_y;
+    double theta;
     double a_err;
     double x_0_err;
     double y_0_err;
     double s_x_err;
     double s_y_err;
+    double theta_err;
     double nrmse;
     double background;
     int max_num_iterations;
@@ -67,6 +69,7 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
 #define NDPluginGaussianFitBackgroundString     "FITTED_BACKGROUND"     // (asynFloat64)
+#define NDPluginGaussianFitThetaString          "FITTED_THETA"          // (asynFloat64)
 
 // Fitted Parameter Uncertainties
 #define NDPluginGaussianFitAmplitudeErrString   "FITTED_AMPLITUDE_ERR"  // (asynFloat64)
@@ -74,6 +77,7 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitYErrString           "FITTED_Y_ERR"          // (asynFloat64)
 #define NDPluginGaussianFitSxErrString          "FITTED_SX_ERR"         // (asynFloat64)
 #define NDPluginGaussianFitSyErrString          "FITTED_SY_ERR"         // (asynFloat64)
+#define NDPluginGaussianFitThetaErrString       "FITTED_THETA_ERR"      // (asynFloat64)
 
 // Fit Quality
 #define NDPluginGaussianFitNRMSEString          "NRMSE"                 // (asynFloat64)
@@ -146,6 +150,9 @@ protected:
     // Fitted background offset
     int NDPluginGaussianFitBackground;
 
+    // Fitted rotation angle in degrees
+    int NDPluginGaussianFitTheta;
+
     // Standard deviation for fitted amplitude
     int NDPluginGaussianFitAmplitudeErr;
 
@@ -160,6 +167,9 @@ protected:
 
     // Standard deviation for fitted SigmaY
     int NDPluginGaussianFitSyErr;
+
+    // Standard deviation for fitted rotation angle in degrees
+    int NDPluginGaussianFitThetaErr;
 
     // Fit quality metric
     int NDPluginGaussianFitNRMSE;
