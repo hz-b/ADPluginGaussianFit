@@ -162,6 +162,10 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
     {
         ceres::Covariance::Options covOptions;
         covOptions.algorithm_type = ceres::DENSE_SVD;
+        // Rotated Gaussians can become numerically rank-deficient, e.g. for
+        // nearly circular spots or weakly constrained angles. Let Ceres drop
+        // tiny singular directions and compute a Moore-Penrose pseudoinverse.
+        covOptions.null_space_rank = -1;
         ceres::Covariance covariance(covOptions);
 
         std::vector<std::pair<const double *, const double *> > covarianceBlocks;
