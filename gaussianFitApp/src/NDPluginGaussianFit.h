@@ -11,6 +11,7 @@
 #define NDPluginGaussianFit_H
 
 /* Standard includes */
+#include <limits>
 #include <vector>
 
 /* AreaDetector includes */
@@ -29,6 +30,13 @@ typedef struct NDGaussianFit{
     double y_0;
     double s_x;
     double s_y;
+    double a_err;
+    double x_0_err;
+    double y_0_err;
+    double s_x_err;
+    double s_y_err;
+    double nrmse;
+    double background;
     int max_num_iterations;
     int num_threads;
     int termination_type;
@@ -58,6 +66,17 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitYString              "FITTED_Y"              // (asynFloat64)
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
+#define NDPluginGaussianFitBackgroundString     "FITTED_BACKGROUND"     // (asynFloat64)
+
+// Fitted Parameter Uncertainties
+#define NDPluginGaussianFitAmplitudeErrString   "FITTED_AMPLITUDE_ERR"  // (asynFloat64)
+#define NDPluginGaussianFitXErrString           "FITTED_X_ERR"          // (asynFloat64)
+#define NDPluginGaussianFitYErrString           "FITTED_Y_ERR"          // (asynFloat64)
+#define NDPluginGaussianFitSxErrString          "FITTED_SX_ERR"         // (asynFloat64)
+#define NDPluginGaussianFitSyErrString          "FITTED_SY_ERR"         // (asynFloat64)
+
+// Fit Quality
+#define NDPluginGaussianFitNRMSEString          "NRMSE"                 // (asynFloat64)
 
 // Overwrite Initial Guesses
 #define NDPluginGaussianFitOverwriteInitString  "OVERWRITE"    // (asynInt32)
@@ -123,6 +142,27 @@ protected:
 
     // Fitted value for SigmaY
     int NDPluginGaussianFitSy;
+
+    // Fitted background offset
+    int NDPluginGaussianFitBackground;
+
+    // Standard deviation for fitted amplitude
+    int NDPluginGaussianFitAmplitudeErr;
+
+    // Standard deviation for fitted centroid X-axis
+    int NDPluginGaussianFitXErr;
+
+    // Standard deviation for fitted centroid Y-axis
+    int NDPluginGaussianFitYErr;
+
+    // Standard deviation for fitted SigmaX
+    int NDPluginGaussianFitSxErr;
+
+    // Standard deviation for fitted SigmaY
+    int NDPluginGaussianFitSyErr;
+
+    // Fit quality metric
+    int NDPluginGaussianFitNRMSE;
 
     // Flag to Overwrite Initial Guesses with latest Fitted values
     int NDPluginGaussianFitOverwriteInit;

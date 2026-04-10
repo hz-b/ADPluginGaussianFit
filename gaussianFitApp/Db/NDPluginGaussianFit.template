@@ -141,6 +141,55 @@ record(ai, "$(P)$(R)SY_Fitted")
     field(SCAN, "I/O Intr")
 }
 
+record(ai, "$(P)$(R)Background_Fitted")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_BACKGROUND")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Amplitude_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_AMPLITUDE_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)X_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_X_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Y_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_Y_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)SX_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SX_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)SY_Err")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))FITTED_SY_ERR")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)NRMSE")
+{
+    field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))NRMSE")
+    field(SCAN, "I/O Intr")
+}
+
 record(mbbi, "$(P)$(R)Termination")
 {
     field(DTYP, "asynInt32")
