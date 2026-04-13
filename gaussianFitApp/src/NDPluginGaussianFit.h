@@ -61,6 +61,7 @@ typedef struct NDGaussianFit{
 // Solver configuration
 #define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
 #define NDPluginGaussianFitOptNumThreadsString          "CERES_THREADS"           // (asynInt32)
+#define NDPluginGaussianFitPixelNoiseString             "PIXEL_NOISE"           // (asynFloat64)
 
 // Fitted Parameters
 #define NDPluginGaussianFitAmplitudeString      "FITTED_AMPLITUDE"      // (asynFloat64)
@@ -131,6 +132,9 @@ protected:
 
     // Ceres Solver Number of Threads
     int NDPluginGaussianFitOptNumThreads;
+
+    // Pixel noise for normalization
+    int NDPluginGaussianFitPixelNoise;
 
     // Fitted value for Amplitude
     int NDPluginGaussianFitAmplitude;

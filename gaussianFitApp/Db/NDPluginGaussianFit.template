@@ -1,6 +1,21 @@
 # include the base driver template file
 include "NDPluginBase.template"
 
+record(ao, "$(P)$(R)PixelNoise")
+{
+    field(PINI,  "YES")
+    field(DTYP,  "asynFloat64")
+    field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))PIXEL_NOISE")
+    field(VAL,   "1.0")
+}
+
+record(ai, "$(P)$(R)PixelNoise_RBV")
+{
+    field(PINI,  "YES")
+    field(INP,   "$(P)$(R)PixelNoise CPP")
+    field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Initial_Amplitude")
 {
     field(PINI,  "YES")

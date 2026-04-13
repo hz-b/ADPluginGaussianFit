@@ -77,7 +77,8 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
     // Add Residual to ceres problem
     ceres::Problem problem;
     ceres::LossFunction *lossFunction = new ceres::HuberLoss(1.0);
-    const double pixelNoise = 1.0;
+    double pixelNoise;
+    getDoubleParam(NDPluginGaussianFitPixelNoise, &pixelNoise);
 
     const size_t numPixels = pFittedParams->x_data.size();
     double minPixel = 0.0;
@@ -408,6 +409,7 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
 
     createParam(NDPluginGaussianFitOptMaxNumIterationsString, asynParamInt32, &NDPluginGaussianFitOptMaxNumIterations);
     createParam(NDPluginGaussianFitOptNumThreadsString, asynParamInt32, &NDPluginGaussianFitOptNumThreads);
+    createParam(NDPluginGaussianFitPixelNoiseString, asynParamFloat64, &NDPluginGaussianFitPixelNoise);
 
     createParam(NDPluginGaussianFitAmplitudeString, asynParamFloat64, &NDPluginGaussianFitAmplitude);
     createParam(NDPluginGaussianFitXString, asynParamFloat64, &NDPluginGaussianFitX);
