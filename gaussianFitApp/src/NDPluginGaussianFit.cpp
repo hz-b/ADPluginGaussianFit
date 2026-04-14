@@ -82,9 +82,6 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
         pixelNoise = 1.0; 
     }
 
-    int thresholdEnabled;
-    getIntegerParam(NDPluginGaussianFitThresholdEnable, &thresholdEnabled);
-
     // Find the minimum pixel to seed the background if needed
     const size_t numPixels = pFittedParams->x_data.size();
 
@@ -116,8 +113,7 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
     {
         double pixel_val = static_cast<double>(pData[i]);
 
-        bool usePixel = !thresholdEnabled || (pixel_val > threshold);
-        if (usePixel)
+        if (pixel_val > threshold)
         {
             problem.AddResidualBlock(
                 new ceres::AutoDiffCostFunction<RotatedGaussianResidual, 1, 1, 1, 1, 1, 1, 1, 1>(new RotatedGaussianResidual(
@@ -440,7 +436,6 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
     createParam(NDPluginGaussianFitOptMaxNumIterationsString, asynParamInt32, &NDPluginGaussianFitOptMaxNumIterations);
     createParam(NDPluginGaussianFitOptNumThreadsString, asynParamInt32, &NDPluginGaussianFitOptNumThreads);
     createParam(NDPluginGaussianFitPixelNoiseString, asynParamFloat64, &NDPluginGaussianFitPixelNoise);
-    createParam(NDPluginGaussianFitThresholdEnableString, asynParamInt32, &NDPluginGaussianFitThresholdEnable);
 
     createParam(NDPluginGaussianFitAmplitudeString, asynParamFloat64, &NDPluginGaussianFitAmplitude);
     createParam(NDPluginGaussianFitXString, asynParamFloat64, &NDPluginGaussianFitX);
