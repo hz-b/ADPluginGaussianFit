@@ -127,7 +127,6 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
 
     if (pixels_added < 10) {
         // Not enough data points to fit 7 parameters
-        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s Not enough points to fit parameters\n", driverName, functionName);
         this->unlock(); // (if previously locked)
         return(asynError);
     }
