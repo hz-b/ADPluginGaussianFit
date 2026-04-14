@@ -74,13 +74,17 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
 {
     epicsType *pData = (epicsType *)pArray->pData;
 
-    // Add Residual to ceres problem
-    ceres::Problem problem;
-    ceres::LossFunction *lossFunction = new ceres::HuberLoss(1.0);
     double pixelNoise;
     getDoubleParam(NDPluginGaussianFitPixelNoise, &pixelNoise);
 
+    // Safety check: noise cannot be zero or negative
+    if (pixelNoise <= 0.0) {
+        pixelNoise = 1.0; 
+    }
+
+    // Find the minimum pixel to seed the background if needed
     const size_t numPixels = pFittedParams->x_data.size();
+
     double minPixel = 0.0;
     if (numPixels > 0)
     {
@@ -96,13 +100,36 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
         pFittedParams->background = minPixel;
     }
 
+    // Define the threshold to isolate the beam from the background
+    double threshold = pFittedParams->background + (3.0 * pixelNoise);
+
+    // Add Residual to ceres problem
+    ceres::Problem problem;
+    ceres::LossFunction *lossFunction = new ceres::HuberLoss(1.0);
+
+    int pixels_added = 0;
+
     for (size_t i = 0; i < numPixels; i++)
     {
-        problem.AddResidualBlock(
-            new ceres::AutoDiffCostFunction<RotatedGaussianResidual, 1, 1, 1, 1, 1, 1, 1, 1>(new RotatedGaussianResidual(
-                pFittedParams->x_data[i], pFittedParams->y_data[i], static_cast<double>(pData[i]), pixelNoise)),
-            lossFunction,
-            &(pFittedParams->a), &(pFittedParams->x_0), &(pFittedParams->s_x), &(pFittedParams->y_0), &(pFittedParams->s_y), &(pFittedParams->background), &(pFittedParams->theta));
+        double pixel_val = static_cast<double>(pData[i]);
+
+        if (pixel_val > threshold)
+        {
+            problem.AddResidualBlock(
+                new ceres::AutoDiffCostFunction<RotatedGaussianResidual, 1, 1, 1, 1, 1, 1, 1, 1>(new RotatedGaussianResidual(
+                    pFittedParams->x_data[i], pFittedParams->y_data[i], static_cast<double>(pData[i]), pixelNoise)),
+                lossFunction,
+                &(pFittedParams->a), &(pFittedParams->x_0), &(pFittedParams->s_x), &(pFittedParams->y_0), &(pFittedParams->s_y), &(pFittedParams->background), &(pFittedParams->theta));
+            
+            pixels_added++;
+        }
+    }
+
+    if (pixels_added < 10) {
+        // Not enough data points to fit 7 parameters
+        asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR, "%s::%s Not enough points to fit parameters\n", driverName, functionName);
+        this->unlock(); // (if previously locked)
+        return(asynError);
     }
 
     problem.SetParameterLowerBound(&(pFittedParams->s_x), 0, 1e-6);
