@@ -62,6 +62,7 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
 #define NDPluginGaussianFitOptNumThreadsString          "CERES_THREADS"           // (asynInt32)
 #define NDPluginGaussianFitPixelNoiseString             "PIXEL_NOISE"           // (asynFloat64)
+#define NDPluginGaussianFitThresholdEnableString        "THRESHOLD_ENABLE"      // (asynInt32)
 
 // Fitted Parameters
 #define NDPluginGaussianFitAmplitudeString      "FITTED_AMPLITUDE"      // (asynFloat64)
@@ -135,6 +136,9 @@ protected:
 
     // Pixel noise for normalization
     int NDPluginGaussianFitPixelNoise;
+
+    // Threshold enable flag
+    int NDPluginGaussianFitThresholdEnable;
 
     // Fitted value for Amplitude
     int NDPluginGaussianFitAmplitude;

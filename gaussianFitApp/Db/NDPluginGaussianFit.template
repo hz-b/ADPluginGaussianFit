@@ -16,6 +16,21 @@ record(ai, "$(P)$(R)PixelNoise_RBV")
     field(VAL,   "0")
 }
 
+record(bo, "$(P)$(R)Threshold_Enable") {
+  field(PINI,  "YES")
+  field(DTYP,  "asynInt32")
+  field(OUT,   "@asyn($(PORT),$(ADDR),$(TIMEOUT))THRESHOLD_ENABLE")
+  field(ZNAM,  "No")
+  field(ONAM,  "Yes")
+  field(VAL,   "1")
+}
+
+record(bi, "$(P)$(R)Threshold_Enable_RBV") {
+  field(PINI,  "YES")
+  field(INP,   "$(P)$(R)Threshold_Enable CPP")
+  field(VAL,   "0")
+}
+
 record(ao, "$(P)$(R)Initial_Amplitude")
 {
     field(PINI,  "YES")
