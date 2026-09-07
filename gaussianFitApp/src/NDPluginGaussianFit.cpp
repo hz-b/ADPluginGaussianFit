@@ -8,7 +8,10 @@
  */
 
 /* Standard Includes */
+#include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <limits>
 
 /* EPICS Includes */
 #include <epicsMutex.h>
@@ -18,16 +21,24 @@
 
 /* User Includes */
 #include "NDPluginGaussianFit.h"
+#include "ceres/covariance.h"
 
 using namespace std;
 
 static const char *driverName = "NDPluginGaussianFit";
+static const double radiansToDegrees = 180.0 / M_PI;
+static const double degreesToRadians = M_PI / 180.0;
+
+static double degreesOrSentinel(double radiansValue)
+{
+    return radiansValue >= 0.0 ? radiansValue * radiansToDegrees : radiansValue;
+}
 
 /* Define the residual struct for fitting a 2D Gaussian */
-struct GaussianResidual
+struct RotatedGaussianResidual
 {
-    GaussianResidual(double x, double y, double z)
-        : x_(x), y_(y), z_(z) {}
+    RotatedGaussianResidual(double x, double y, double z, double pixelNoise)
+        : x_(x), y_(y), z_(z), noise_(pixelNoise) {}
 
     /*  Params:
         a = amplitude
@@ -35,11 +46,20 @@ struct GaussianResidual
         s_x = std deviation on x
         y_0 = y position of center
         s_y = std deviation on y
+        bkg = constant background offset
+        theta = rotation angle in radians
     */
-    template <typename T>
-    bool operator()(const T *const a, const T *const x_0, const T *const s_x, const T *const y_0, const T *const s_y, T *residual) const
+    template <typename T> bool operator()(const T *const a, const T *const x_0, const T *const s_x, const T *const y_0, const T *const s_y, const T *const bkg, const T *const theta, T *residual) const
     {
-        residual[0] = z_ - a[0] * exp(-((x_ - x_0[0]) * (x_ - x_0[0]) / (2.0 * s_x[0] * s_x[0]) + (y_ - y_0[0]) * (y_ - y_0[0]) / (2.0 * s_y[0] * s_y[0])));
+        const T dx = T(x_) - x_0[0];
+        const T dy = T(y_) - y_0[0];
+        const T c = ceres::cos(theta[0]);
+        const T s = ceres::sin(theta[0]);
+        const T dxPrime = c * dx + s * dy;
+        const T dyPrime = -s * dx + c * dy;
+        const T arg = (dxPrime * dxPrime) / (T(2.0) * s_x[0] * s_x[0]) + (dyPrime * dyPrime) / (T(2.0) * s_y[0] * s_y[0]);
+        const T model = bkg[0] + a[0] * ceres::exp(-arg);
+        residual[0] = (T(z_) - model) / T(noise_);
         return true;
     }
 
@@ -47,23 +67,74 @@ private:
     double x_;
     double y_;
     double z_;
+    double noise_;
 };
 
 template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(NDArray *pArray, NDGaussianFit_t * pFittedParams)
 {
     epicsType *pData = (epicsType *)pArray->pData;
 
+    double pixelNoise;
+    getDoubleParam(NDPluginGaussianFitPixelNoise, &pixelNoise);
+
+    // Safety check: noise cannot be zero or negative
+    if (pixelNoise <= 0.0) {
+        pixelNoise = 1.0; 
+    }
+
+    // Find the minimum pixel to seed the background if needed
+    const size_t numPixels = pFittedParams->x_data.size();
+
+    double minPixel = 0.0;
+    if (numPixels > 0)
+    {
+        minPixel = static_cast<double>(pData[0]);
+        for (size_t i = 1; i < numPixels; i++)
+        {
+            minPixel = std::min(minPixel, static_cast<double>(pData[i]));
+        }
+    }
+
+    if (!std::isfinite(pFittedParams->background))
+    {
+        pFittedParams->background = minPixel;
+    }
+
+    // Define the threshold to isolate the beam from the background
+    double threshold = pFittedParams->background + (3.0 * pixelNoise);
+
     // Add Residual to ceres problem
     ceres::Problem problem;
+    ceres::LossFunction *lossFunction = new ceres::HuberLoss(1.0);
 
-    for (size_t i = 0; i < pFittedParams->x_data.size(); i++)
+    int pixels_added = 0;
+
+    for (size_t i = 0; i < numPixels; i++)
     {
-        problem.AddResidualBlock(
-            new ceres::AutoDiffCostFunction<GaussianResidual, 1, 1, 1, 1, 1, 1>(
-                new GaussianResidual(pFittedParams->x_data[i], pFittedParams->y_data[i], (double)pData[i])),
-            nullptr,
-            &(pFittedParams->a), &(pFittedParams->x_0), &(pFittedParams->s_x), &(pFittedParams->y_0), &(pFittedParams->s_y));
+        double pixel_val = static_cast<double>(pData[i]);
+
+        if (pixel_val > threshold)
+        {
+            problem.AddResidualBlock(
+                new ceres::AutoDiffCostFunction<RotatedGaussianResidual, 1, 1, 1, 1, 1, 1, 1, 1>(new RotatedGaussianResidual(
+                    pFittedParams->x_data[i], pFittedParams->y_data[i], static_cast<double>(pData[i]), pixelNoise)),
+                lossFunction,
+                &(pFittedParams->a), &(pFittedParams->x_0), &(pFittedParams->s_x), &(pFittedParams->y_0), &(pFittedParams->s_y), &(pFittedParams->background), &(pFittedParams->theta));
+            
+            pixels_added++;
+        }
     }
+
+    if (pixels_added < 10) {
+        // Not enough data points to fit 7 parameters
+        this->unlock(); // (if previously locked)
+        return(asynError);
+    }
+
+    problem.SetParameterLowerBound(&(pFittedParams->s_x), 0, 1e-6);
+    problem.SetParameterLowerBound(&(pFittedParams->s_y), 0, 1e-6);
+    problem.SetParameterLowerBound(&(pFittedParams->theta), 0, -M_PI / 2.0);
+    problem.SetParameterUpperBound(&(pFittedParams->theta), 0, M_PI / 2.0);
 
     // Configure solver options
     ceres::Solver::Options opts;
@@ -80,8 +151,92 @@ template <typename epicsType> asynStatus NDPluginGaussianFit::doComputeParamsT(N
     ceres::Solver::Summary summary;
     ceres::Solve(opts, &problem, &summary);
 
-    this->lock();
+    double residualSqSum = 0.0;
+    double imageSqSum = 0.0;
+    for (size_t i = 0; i < numPixels; i++)
+    {
+        const double dx = pFittedParams->x_data[i] - pFittedParams->x_0;
+        const double dy = pFittedParams->y_data[i] - pFittedParams->y_0;
+        const double c = std::cos(pFittedParams->theta);
+        const double s = std::sin(pFittedParams->theta);
+        const double dxPrime = c * dx + s * dy;
+        const double dyPrime = -s * dx + c * dy;
+        const double arg = (dxPrime * dxPrime) / (2.0 * pFittedParams->s_x * pFittedParams->s_x) + (dyPrime * dyPrime) / (2.0 * pFittedParams->s_y * pFittedParams->s_y);
+        const double model = pFittedParams->background + pFittedParams->a * std::exp(-arg);
+        const double actual = static_cast<double>(pData[i]);
+        const double residual = actual - model;
 
+        residualSqSum += residual * residual;
+        imageSqSum += actual * actual;
+    }
+
+    pFittedParams->nrmse = imageSqSum > 0.0 ? std::sqrt(residualSqSum / imageSqSum) : 1.0;
+
+    auto setCovarianceErrorValues = [&](double value) {
+        pFittedParams->a_err = value;
+        pFittedParams->x_0_err = value;
+        pFittedParams->y_0_err = value;
+        pFittedParams->s_x_err = value;
+        pFittedParams->s_y_err = value;
+        pFittedParams->theta_err = value;
+    };
+
+    auto sigmaFromVariance = [](double variance) {
+        return variance >= 0.0 ? std::sqrt(variance) : -1.0;
+    };
+
+    if (summary.IsSolutionUsable())
+    {
+        ceres::Covariance::Options covOptions;
+        covOptions.algorithm_type = ceres::DENSE_SVD;
+        // Rotated Gaussians can become numerically rank-deficient, e.g. for
+        // nearly circular spots or weakly constrained angles. Let Ceres drop
+        // tiny singular directions and compute a Moore-Penrose pseudoinverse.
+        covOptions.null_space_rank = -1;
+        ceres::Covariance covariance(covOptions);
+
+        std::vector<std::pair<const double *, const double *> > covarianceBlocks;
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->a), &(pFittedParams->a)));
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->x_0), &(pFittedParams->x_0)));
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->y_0), &(pFittedParams->y_0)));
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->s_x), &(pFittedParams->s_x)));
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->s_y), &(pFittedParams->s_y)));
+        covarianceBlocks.push_back(std::make_pair(&(pFittedParams->theta), &(pFittedParams->theta)));
+
+        if (covariance.Compute(covarianceBlocks, &problem))
+        {
+            double varA = -1.0;
+            double varX0 = -1.0;
+            double varY0 = -1.0;
+            double varSx = -1.0;
+            double varSy = -1.0;
+            double varTheta = -1.0;
+
+            covariance.GetCovarianceBlock(&(pFittedParams->a), &(pFittedParams->a), &varA);
+            covariance.GetCovarianceBlock(&(pFittedParams->x_0), &(pFittedParams->x_0), &varX0);
+            covariance.GetCovarianceBlock(&(pFittedParams->y_0), &(pFittedParams->y_0), &varY0);
+            covariance.GetCovarianceBlock(&(pFittedParams->s_x), &(pFittedParams->s_x), &varSx);
+            covariance.GetCovarianceBlock(&(pFittedParams->s_y), &(pFittedParams->s_y), &varSy);
+            covariance.GetCovarianceBlock(&(pFittedParams->theta), &(pFittedParams->theta), &varTheta);
+
+            pFittedParams->a_err = sigmaFromVariance(varA);
+            pFittedParams->x_0_err = sigmaFromVariance(varX0);
+            pFittedParams->y_0_err = sigmaFromVariance(varY0);
+            pFittedParams->s_x_err = sigmaFromVariance(varSx);
+            pFittedParams->s_y_err = sigmaFromVariance(varSy);
+            pFittedParams->theta_err = sigmaFromVariance(varTheta);
+        }
+        else
+        {
+            setCovarianceErrorValues(-1.0);
+        }
+    }
+    else
+    {
+        setCovarianceErrorValues(-1.0);
+    }
+
+    this->lock();
     pFittedParams->termination_type = summary.termination_type;
     pFittedParams->total_time_in_seconds = summary.total_time_in_seconds;
 
@@ -178,6 +333,8 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
         getDoubleParam(NDPluginGaussianFitInitY, &pFittedParams->y_0);
         getDoubleParam(NDPluginGaussianFitInitSx, &pFittedParams->s_x);
         getDoubleParam(NDPluginGaussianFitInitSy, &pFittedParams->s_y);
+        pFittedParams->background = std::numeric_limits<double>::quiet_NaN();
+        pFittedParams->theta = 0.0;
         asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Overwrite Off\n", driverName, functionName);
     }
     else 
@@ -187,6 +344,9 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
         getDoubleParam(NDPluginGaussianFitY, &pFittedParams->y_0);
         getDoubleParam(NDPluginGaussianFitSx, &pFittedParams->s_x);
         getDoubleParam(NDPluginGaussianFitSy, &pFittedParams->s_y);
+        getDoubleParam(NDPluginGaussianFitBackground, &pFittedParams->background);
+        getDoubleParam(NDPluginGaussianFitTheta, &pFittedParams->theta);
+        pFittedParams->theta *= degreesToRadians;
         asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Overwrite On\n", driverName, functionName);
     }
 
@@ -205,13 +365,22 @@ void NDPluginGaussianFit::processCallbacks(NDArray *pArray)
     setDoubleParam(NDPluginGaussianFitY, pFittedParams->y_0);
     setDoubleParam(NDPluginGaussianFitSx, pFittedParams->s_x);
     setDoubleParam(NDPluginGaussianFitSy, pFittedParams->s_y);
+    setDoubleParam(NDPluginGaussianFitBackground, pFittedParams->background);
+    setDoubleParam(NDPluginGaussianFitTheta, pFittedParams->theta * radiansToDegrees);
+    setDoubleParam(NDPluginGaussianFitAmplitudeErr, pFittedParams->a_err);
+    setDoubleParam(NDPluginGaussianFitXErr, pFittedParams->x_0_err);
+    setDoubleParam(NDPluginGaussianFitYErr, pFittedParams->y_0_err);
+    setDoubleParam(NDPluginGaussianFitSxErr, pFittedParams->s_x_err);
+    setDoubleParam(NDPluginGaussianFitSyErr, pFittedParams->s_y_err);
+    setDoubleParam(NDPluginGaussianFitThetaErr, degreesOrSentinel(pFittedParams->theta_err));
+    setDoubleParam(NDPluginGaussianFitNRMSE, pFittedParams->nrmse);
 
     // Writing summary results to PVs
     setIntegerParam(NDPluginGaussianFitTermination, pFittedParams->termination_type);
     setDoubleParam(NDPluginGaussianFitTotalTime, pFittedParams->total_time_in_seconds);
 
-    asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Fitted Params:\nAmplitude: %f\nX0: %f\n Y0: %f\nSx: %f\nSy: %f\n", driverName, functionName,
-        pFittedParams->a, pFittedParams->x_0, pFittedParams->y_0, pFittedParams->s_x, pFittedParams->s_y);
+    asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW, "%s::%s Fitted Params:\nAmplitude: %f\nX0: %f\nY0: %f\nSx: %f\nSy: %f\nTheta(deg): %f\nBackground: %f\nNRMSE: %f\n", driverName, functionName,
+        pFittedParams->a, pFittedParams->x_0, pFittedParams->y_0, pFittedParams->s_x, pFittedParams->s_y, pFittedParams->theta * radiansToDegrees, pFittedParams->background, pFittedParams->nrmse);
 
     callParamCallbacks();
 
@@ -266,12 +435,22 @@ NDPluginGaussianFit::NDPluginGaussianFit(const char *portName, int queueSize, in
 
     createParam(NDPluginGaussianFitOptMaxNumIterationsString, asynParamInt32, &NDPluginGaussianFitOptMaxNumIterations);
     createParam(NDPluginGaussianFitOptNumThreadsString, asynParamInt32, &NDPluginGaussianFitOptNumThreads);
+    createParam(NDPluginGaussianFitPixelNoiseString, asynParamFloat64, &NDPluginGaussianFitPixelNoise);
 
     createParam(NDPluginGaussianFitAmplitudeString, asynParamFloat64, &NDPluginGaussianFitAmplitude);
     createParam(NDPluginGaussianFitXString, asynParamFloat64, &NDPluginGaussianFitX);
     createParam(NDPluginGaussianFitYString, asynParamFloat64, &NDPluginGaussianFitY);
     createParam(NDPluginGaussianFitSxString, asynParamFloat64, &NDPluginGaussianFitSx);
     createParam(NDPluginGaussianFitSyString, asynParamFloat64, &NDPluginGaussianFitSy);
+    createParam(NDPluginGaussianFitBackgroundString, asynParamFloat64, &NDPluginGaussianFitBackground);
+    createParam(NDPluginGaussianFitThetaString, asynParamFloat64, &NDPluginGaussianFitTheta);
+    createParam(NDPluginGaussianFitAmplitudeErrString, asynParamFloat64, &NDPluginGaussianFitAmplitudeErr);
+    createParam(NDPluginGaussianFitXErrString, asynParamFloat64, &NDPluginGaussianFitXErr);
+    createParam(NDPluginGaussianFitYErrString, asynParamFloat64, &NDPluginGaussianFitYErr);
+    createParam(NDPluginGaussianFitSxErrString, asynParamFloat64, &NDPluginGaussianFitSxErr);
+    createParam(NDPluginGaussianFitSyErrString, asynParamFloat64, &NDPluginGaussianFitSyErr);
+    createParam(NDPluginGaussianFitThetaErrString, asynParamFloat64, &NDPluginGaussianFitThetaErr);
+    createParam(NDPluginGaussianFitNRMSEString, asynParamFloat64, &NDPluginGaussianFitNRMSE);
 
     createParam(NDPluginGaussianFitOverwriteInitString, asynParamInt32, &NDPluginGaussianFitOverwriteInit);
 
