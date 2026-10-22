@@ -11,6 +11,7 @@
 #define NDPluginGaussianFit_H
 
 /* Standard includes */
+#include <limits>
 #include <vector>
 
 /* AreaDetector includes */
@@ -29,6 +30,15 @@ typedef struct NDGaussianFit{
     double y_0;
     double s_x;
     double s_y;
+    double theta;
+    double a_err;
+    double x_0_err;
+    double y_0_err;
+    double s_x_err;
+    double s_y_err;
+    double theta_err;
+    double nrmse;
+    double background;
     int max_num_iterations;
     int num_threads;
     int termination_type;
@@ -39,7 +49,7 @@ typedef struct NDGaussianFit{
 //version numbers
 #define GAUSSIAN_FIT_VERSION 0
 #define GAUSSIAN_FIT_REVISION 2
-#define GAUSSIAN_FIT_MODIFICATION 0
+#define GAUSSIAN_FIT_MODIFICATION 1
 
 // Initial guesses
 #define NDPluginGaussianFitInitAmplitudeString  "INITIAL_AMPLITUDE"     // (asynFloat64)
@@ -51,6 +61,7 @@ typedef struct NDGaussianFit{
 // Solver configuration
 #define NDPluginGaussianFitOptMaxNumIterationsString    "MAX_ITERATIONS"        // (asynInt32)
 #define NDPluginGaussianFitOptNumThreadsString          "CERES_THREADS"           // (asynInt32)
+#define NDPluginGaussianFitPixelNoiseString             "PIXEL_NOISE"           // (asynFloat64)
 
 // Fitted Parameters
 #define NDPluginGaussianFitAmplitudeString      "FITTED_AMPLITUDE"      // (asynFloat64)
@@ -58,6 +69,19 @@ typedef struct NDGaussianFit{
 #define NDPluginGaussianFitYString              "FITTED_Y"              // (asynFloat64)
 #define NDPluginGaussianFitSxString             "FITTED_SX"             // (asynFloat64)
 #define NDPluginGaussianFitSyString             "FITTED_SY"             // (asynFloat64)
+#define NDPluginGaussianFitBackgroundString     "FITTED_BACKGROUND"     // (asynFloat64)
+#define NDPluginGaussianFitThetaString          "FITTED_THETA"          // (asynFloat64)
+
+// Fitted Parameter Uncertainties
+#define NDPluginGaussianFitAmplitudeErrString   "FITTED_AMPLITUDE_ERR"  // (asynFloat64)
+#define NDPluginGaussianFitXErrString           "FITTED_X_ERR"          // (asynFloat64)
+#define NDPluginGaussianFitYErrString           "FITTED_Y_ERR"          // (asynFloat64)
+#define NDPluginGaussianFitSxErrString          "FITTED_SX_ERR"         // (asynFloat64)
+#define NDPluginGaussianFitSyErrString          "FITTED_SY_ERR"         // (asynFloat64)
+#define NDPluginGaussianFitThetaErrString       "FITTED_THETA_ERR"      // (asynFloat64)
+
+// Fit Quality
+#define NDPluginGaussianFitNRMSEString          "NRMSE"                 // (asynFloat64)
 
 // Overwrite Initial Guesses
 #define NDPluginGaussianFitOverwriteInitString  "OVERWRITE"    // (asynInt32)
@@ -109,6 +133,9 @@ protected:
     // Ceres Solver Number of Threads
     int NDPluginGaussianFitOptNumThreads;
 
+    // Pixel noise for normalization
+    int NDPluginGaussianFitPixelNoise;
+
     // Fitted value for Amplitude
     int NDPluginGaussianFitAmplitude;
 
@@ -123,6 +150,33 @@ protected:
 
     // Fitted value for SigmaY
     int NDPluginGaussianFitSy;
+
+    // Fitted background offset
+    int NDPluginGaussianFitBackground;
+
+    // Fitted rotation angle in degrees
+    int NDPluginGaussianFitTheta;
+
+    // Standard deviation for fitted amplitude
+    int NDPluginGaussianFitAmplitudeErr;
+
+    // Standard deviation for fitted centroid X-axis
+    int NDPluginGaussianFitXErr;
+
+    // Standard deviation for fitted centroid Y-axis
+    int NDPluginGaussianFitYErr;
+
+    // Standard deviation for fitted SigmaX
+    int NDPluginGaussianFitSxErr;
+
+    // Standard deviation for fitted SigmaY
+    int NDPluginGaussianFitSyErr;
+
+    // Standard deviation for fitted rotation angle in degrees
+    int NDPluginGaussianFitThetaErr;
+
+    // Fit quality metric
+    int NDPluginGaussianFitNRMSE;
 
     // Flag to Overwrite Initial Guesses with latest Fitted values
     int NDPluginGaussianFitOverwriteInit;
